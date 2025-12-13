@@ -24,11 +24,11 @@ def draw_polygon(sides):
     tina.penup()
 draw_polygon(4)                        # Draw a square
 
-tina.goto(100,100)                                      # Move tina to another spot on the screen
+tina.goto(80,20)                                      # Move tina to another spot on the screen
 
 draw_polygon(5)                        # Draw a pentagon
 
-tina.goto(100,100)                                    # Move tina to another spot on the screen
+tina.goto(50,50)                                    # Move tina to another spot on the screen
 
 draw_polygon(6)                        # Draw a hexagon
 
