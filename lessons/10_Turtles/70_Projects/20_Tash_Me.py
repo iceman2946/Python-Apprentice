@@ -42,5 +42,8 @@ turtle.setup(width=600,height=600)
 t = turtle.Turtle()
 screen = turtle.Screen()
 set_background_image(screen,'emoji.png')
-set_turtle_image(t,'moustache.png')
-t.right(180)
+set_turtle_image(t,'moustache1.gif')
+t.move(100)
+turtle.exitonclick()
+
+
