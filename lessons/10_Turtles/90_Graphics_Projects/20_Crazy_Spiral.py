@@ -17,7 +17,8 @@ t = turtle.Turtle() # Create a turtle named t
 # 1) Complete make_a_shape() to make the turtle move in some pattern. 
 # For instance, you can make it go left 30 degrees, then forward 50 pixels, 
 # then right 60 degrees, then forward 100 pixels. Make any shape you like.
-
+t.penup()
+t.goto(0,300)
 def make_a_shape(t):
     """Make a shape with turtle t. Make it go left or right or forward"""    
     t.forward(100)
@@ -33,9 +34,8 @@ def make_a_shape(t):
 # for example 100, or it could use islice(), cycle(), or a list of numbers.
 
 num_shapes = 100
-for shape in range(num_shapes):
-    make_a_shape(t)
-
-for i in range(...):
+t.pendown()
+for i in range(num_shapes):
     make_a_shape(t)
     t.right(360/num_shapes)
+    t.forward(100)
