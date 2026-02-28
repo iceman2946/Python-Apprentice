@@ -34,7 +34,20 @@ app = App("Numbers Grid", layout="grid")
 
 # Create a 10x10 grid using nested loops
 # Or you can use a single loop and calculate the row and column
-
+for i in range(11):
+    for n in range(11):
+        number = i*n
+        for digit in str(number):
+            total +=int(digit)
+            if(total % 2 ==0):
+                color = 'blue'
+            else:
+                color = 'red'
+        if(number%5==0 & number%3==0 ):
+            Text(app, text='🐍', grid = [i,n], color=color)
+        elif(number%5 ==0):
+            Text(app, text= '🦡', grid = [i,n], color=color)
+        
 # In the loop, calculate or increment the number
 
 # Use % determining the display, using FizzBuzz rules
