@@ -31,6 +31,7 @@ at the bottom of the editor screen; this program does not use the GUI.
 """
 
 import random
+from tkinter import messagebox
 
 def ask_integer(prompt):
     """Function to ask the user for an integer"""
@@ -41,15 +42,24 @@ def ask_integer(prompt):
             print("Please enter a valid number!")
 
 # Pick the random number
-
+number = random.randint(1,100)
 # In your loop:
-
+while(True):
     # Get the user's guess
-
+    guess = ask_integer("Guess a number between 1-100 ")
     # If the user's guess is divisible by 7, tell the user to start over
-
+    if(guess % 7==0):
+        print("Invalid guess, start over")
+        continue
     # If the user's guess is too high, tell the user
-
+    if(number < guess):
+        print("Your guess is too high!")
+        continue
     # If the user's guess is too low, tell the user
-    
+    if(number > guess):
+        print("Your guess is too low!")
+        continue
     # If the user's guess is correct, tell the user and break out of the loop
+    if(number == guess):
+        print("Congrats!, You guessed the correct number")
+        break
