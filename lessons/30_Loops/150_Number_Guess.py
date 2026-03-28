@@ -50,6 +50,7 @@ while(True):
     # If the user's guess is divisible by 7, tell the user to start over
     if(guess % 7==0):
         print("Invalid guess, start over")
+        number = random.randint(1,100)
         continue
     # If the user's guess is too high, tell the user
     if(number < guess):
