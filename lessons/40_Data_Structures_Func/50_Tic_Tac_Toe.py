@@ -15,7 +15,7 @@ def check_row(l):
     Returns:
         The winner's token ( x or o ) if there is one, otherwise None
         """
-
+    
     return None
 
 def check_win(board):
