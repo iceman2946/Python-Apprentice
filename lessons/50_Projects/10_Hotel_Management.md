@@ -14,7 +14,7 @@ management program.
 * Add your imports (Tkinter or whatever you need)
 * Code away, make sure to keep it organized so you know where things are and
   what they do.
-  * Separate different functionalities into their own functions.
+* Separate different functionalities into their own functions.
 
 
 ## Requirements:
