@@ -37,7 +37,14 @@ def random_walk(walker, steps):
     steps (int): The number of steps to take
 
     """
-
+    directions = {"N": 0, "E": 90, "S": 180, "W": 270}
+    while True:
+        direction = input("Enter a direction (N, E, S, W):").upper()
+        if direction in directions:
+            walker.setheading(directions[direction])
+            walker.forward(10)
+        else:
+            print("Invalid direction. Please enter N, E, S, or W.")
     # You can make the turle move randomly in either of two ways: randomly choosing a direction
     # or randomly choosing a angle to turn. You can use random.choice() to select a random element
     # from a list, like this: 
@@ -46,7 +53,7 @@ def random_walk(walker, steps):
     # angle = random.choice([0, 90, 180, 270])
     #
     # Or you can use random.randint() to generate a random integer between two values, like this:
-    # angle_index = random.randint(0, 4)
+    angle_index = random.randint(0, 4)
     # directions = ["N", "E", "S", "W"] # or directions = [0, 90, 180, 270]
     # direction = directions[angle_index]
     #

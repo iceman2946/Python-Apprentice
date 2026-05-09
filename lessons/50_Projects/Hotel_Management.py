@@ -69,35 +69,84 @@ class Hotel:
     def list_bookings(self):
         return self.bookings
 
+    def upgrade_room(self, guest_name, new_room_type):
+        """Upgrade a guest's room to a better room type."""
+        # Find guest's current rooms
+        guest_rooms = [room for room in self.rooms if room['guest'] == guest_name]
+        
+        if not guest_rooms:
+            return f"No rooms found for {guest_name}."
+        
+        # Find available room of the new type
+        available_upgrade = next(
+            (room for room in self.rooms if room['type'] == new_room_type and not room['occupied']),
+            None
+        )
+        
+        if not available_upgrade:
+            return f"No available {new_room_type} rooms."
+        
+        # Get the current room (assume first room if multiple)
+        current_room = guest_rooms[0]
+        old_room_number = current_room['number']
+        
+        # Check if upgrade is valid (better room type)
+        room_hierarchy = {'single': 0, 'double': 1, 'suite': 2}
+        if room_hierarchy.get(new_room_type, -1) <= room_hierarchy.get(current_room['type'], -1):
+            return f"Cannot downgrade or laterally move. Current: {current_room['type']}, Requested: {new_room_type}"
+        
+        # Perform the upgrade
+        current_room['occupied'] = False
+        current_room['guest'] = None
+        
+        available_upgrade['occupied'] = True
+        available_upgrade['guest'] = guest_name
+        
+        # Update bookings
+        for i, booking in enumerate(self.bookings):
+            if booking[0] == guest_name:
+                old_rooms = list(booking[1])
+                old_rooms.remove(old_room_number)
+                old_rooms.append(available_upgrade['number'])
+                self.bookings[i] = (guest_name, tuple(old_rooms), booking[2])
+        
+        return f"Upgraded {guest_name} from room {old_room_number} ({current_room['type']}) to room {available_upgrade['number']} ({new_room_type})."
+
 
 # Example usage
 hotel = Hotel()
-
-while True:
-    action = input("What would you like to do? (checkin/checkout/status/quit): ").lower()
-    if action == 'checkin':
-        guest_name = input("Guest name: ")
-        room_count = int(input("Number of rooms: "))
-        nights = int(input("Number of nights: "))
-        room_type = input("Room type (optional, press enter for any): ").strip() or None
-        result = hotel.check_in(guest_name, room_count, nights, room_type)
-        print(result)
-    elif action == 'checkout':
-        guest_name = input("Guest name: ")
-        result = hotel.check_out(guest_name)
-        charge = hotel.charge(guest_name)  # Charge before removing booking
-        print(result)
-        if charge > 0:
-            print(f"Total charge: ${charge}")
-    elif action == 'status':
-        occupied = hotel.list_occupied_rooms()
-        print("Occupied rooms:")
-        for room in occupied:
-            print(f"Room {room['number']} ({room['type']}): {room['guest']}")
-        print("Bookings:")
-        for booking in hotel.list_bookings():
-            print(f"{booking[0]}: rooms {list(booking[1])}, {booking[2]} nights")
-    elif action == 'quit':
-        break
-    else:
-        print("Invalid action.")
+def main():
+    while True:
+        action = input("What would you like to do? (checkin/checkout/upgrade/status/quit): ").lower()
+        if action == 'checkin':
+            guest_name = input("Guest name: ")
+            room_count = int(input("Number of rooms: "))
+            nights = int(input("Number of nights: "))
+            room_type = input("Room type (optional, press enter for any): ").strip() or None
+            result = hotel.check_in(guest_name, room_count, nights, room_type)
+            print(result)
+        elif action == 'checkout':
+            guest_name = input("Guest name: ")
+            result = hotel.check_out(guest_name)
+            charge = hotel.charge(guest_name)  # Charge before removing booking
+            print(result)
+            if charge > 0:
+                print(f"Total charge: ${charge}")
+        elif action == 'upgrade':
+            guest_name = input("Guest name: ")
+            new_room_type = input("Room type to upgrade to (double/suite): ").lower()
+            result = hotel.upgrade_room(guest_name, new_room_type)
+            print(result)
+        elif action == 'status':
+            occupied = hotel.list_occupied_rooms()
+            print("Occupied rooms:")
+            for room in occupied:
+                print(f"Room {room['number']} ({room['type']}): {room['guest']}")
+            print("Bookings:")
+            for booking in hotel.list_bookings():
+                print(f"{booking[0]}: rooms {list(booking[1])}, {booking[2]} nights")
+        elif action == 'quit':
+            break
+        else:
+            print("Invalid action.")
+main()
